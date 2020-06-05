@@ -1,28 +1,40 @@
-console.log("in index.js");
-endPoint = "http://localhost:3000/api/v1/games"
+
+
+// const gameAdapter = new GameAdapter()
 
 document.addEventListener('DOMContentLoaded', () => {
-    // loadRules()
-        //press enter to start..
-    newGame() 
+    // getPlayer() - get name from player form
+        // >>createPlayer() function (pass in playerForm info)
+            // >> createGame() from within createPlayer function(pass in that player)
+            getPlayer()
 
 });
 
+function getPlayer(){
+    console.log('get playername from form')
+    // get name from player form
+    // make a fetch POST request to make a new player
 
+}
 
 function newGame() {
     document.addEventListener('keyup', (e) => {
         if (e.keyCode === 32) {
             console.log("startgame")
-            // startgame
             const game = new Game()
+            // create new game object , pass in the player
+            // const game = new Game()
         }
     })
 }
 
 
 
+// const game = new Game()
+
+// 
 // function createGame(score, playerName){
+//     console.log('game created')
 //     const game = {
 //         score: score,
 //         player_name: playerName
@@ -37,8 +49,4 @@ function newGame() {
 //     })
 //     return resp.json()
 // }
-
-
-// this fires off our components/game class .. which is the container for our Game logic
-// const game = new Game()
 
