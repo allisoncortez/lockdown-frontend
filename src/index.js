@@ -2,14 +2,13 @@
 
 // const gameAdapter = new GameAdapter()
 
+const gameUrl = 'http://localhost:3000/api/v1/games'
+const playerUrl = 'http://localhost:3000/api/v1/players'
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // getPlayer() - get name from player form
-        // >>createPlayer() function (pass in playerForm info)
-            // >> createGame() from within createPlayer function(pass in that player)
-    // getPlayer()
     const playerForm = document.querySelector("#player-form")
     playerForm.addEventListener("submit",(e) => getPlayerName(e))
-
 });
 
 function getPlayerName(e){
@@ -20,23 +19,29 @@ function getPlayerName(e){
 }
 
 function createPlayerObj(playerName){
-    console.log(playerName)
+    fetch(playerUrl, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            player_name: playerName
+        })
+    })
+    .then(resp => resp.json())
+    .then(player => {
+        startGame(player)
+        // pass player object into createGame()
+    })
 }
 
-// function getPlayer(){
-//     console.log('get playername from form')
-//     // get name from player form
-//     // make a fetch POST request to make a new player
-
-// }
+function startGame(player, score){
+    console.log(player)
+    //new instance of game object here
+}
 
 // function newGame() {
 //     document.addEventListener('keyup', (e) => {
 //         if (e.keyCode === 32) {
-//             console.log("startgame")
 //             const game = new Game()
-//             // create new game object , pass in the player
-//             // const game = new Game()
 //         }
 //     })
 // }
