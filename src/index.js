@@ -1,4 +1,4 @@
-// const gameAdapter = new GameAdapter()
+
 const gameUrl = 'http://localhost:3000/api/v1/games'
 const playerUrl = 'http://localhost:3000/api/v1/players'
 
@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function getPlayerName(e){
     e.preventDefault()
     const playerName = document.querySelector("#player-name").value 
-
     createPlayerObj(playerName)
 }
 
@@ -26,8 +25,9 @@ function createPlayerObj(playerName){
     })
     .then(resp => resp.json())
     .then(player => {
-        createGameObj(player)
-        // pass player object into createGame()
+        //refactor: instead of making new object here, make new instance of game(const game = new Game()
+        // in Game class, this.adapter is defined.. calls new GameAdapter.. which makes our POST request and RETURNS the data.
+        createGameObj(player) 
     })
 }
 
@@ -49,30 +49,4 @@ function createGameObj(player, score=0){
         // start a new instance of game...
     })
 }
-
-// createGame(score, playerName){
-
-    //         const game = {
-    //             score: score,
-    //             player_name: playerName
-    //         }
-    
-    //         const resp = fetch(this.baseUrl, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'content-type': 'application/json',
-    //             },
-    //             body: JSON.stringify(game)
-    //         })
-    //         return resp.json()
-    //     }
-
-
-// function newGame() {
-//     document.addEventListener('keyup', (e) => {
-//         if (e.keyCode === 32) {
-//             const game = new Game()
-//         }
-//     })
-// }
 
