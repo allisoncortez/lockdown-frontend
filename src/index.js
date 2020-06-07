@@ -2,8 +2,6 @@
 const gameUrl = 'http://localhost:3000/api/v1/games'
 const playerUrl = 'http://localhost:3000/api/v1/players'
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const playerForm = document.querySelector("#player-form")
     playerForm.addEventListener("submit",(e) => getPlayerName(e))
@@ -25,15 +23,11 @@ function createPlayerObj(playerName){
     })
     .then(resp => resp.json())
     .then(player => {
-        //refactor: instead of making new object here, make new instance of game(const game = new Game()
-        // in Game class, this.adapter is defined.. calls new GameAdapter.. which makes our POST request and RETURNS the data.
         createGameObj(player) 
     })
 }
 
 function createGameObj(player, score=0){
-    // debugger
-    // console.log('in game object')
     fetch(gameUrl, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -46,7 +40,6 @@ function createGameObj(player, score=0){
     .then(resp => resp.json())
     .then(game => {
         console.log(game)
-        // start a new instance of game...
     })
 }
 
