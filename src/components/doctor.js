@@ -1,22 +1,25 @@
-// class Doctor {
-//     constructor(gameWidth, gameHeight, location = false) {
-        // this.img = document.getElementById('doctor')
-        // this.gameWidth = gameWidth
-
+class Doctor {
+    constructor(gameWidth, gameHeight, position = false) {
+        this.gameWidth = gameWidth
         // this.width = this.img.width 
-        // this.height = this.img.height 
+        this.width = 60;
+        this.height = 50;
 
-        // this.maxSpeed = 6 
-        // this.speed = 0  
+        if (!position) {
+            this.position = {
+                x: gameWidth / 2 - this.width / 2,
+                y: gameHeight - this.height - 30
+            }
+        } else {
+            this.position = position
+        }
+    }
 
-        // if (!location) {
-        //     this.location = {
-        //         x: gameWidth / 2 - this.width / 2,
-        //         y: gameHeight - this.height - 60
-        //     }
-        // } else {
-        //     this.location = location
-        // }
-    // }
+    draw(ctx) {
+        // ctx.drawImage(this.location.x, this.location.y, this.width, this.height)
+        ctx.fillStyle = "#F2A491"
+        ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+        
+    }
 
-// }
+}

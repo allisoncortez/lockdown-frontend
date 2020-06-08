@@ -6,7 +6,7 @@ class Game{
         this.ctx = this.canvas.getContext('2d');
         this.gameWidth = this.canvas.width 
         this.gameHeight = this.canvas.height 
-        // this.createDoctor()
+        this.createDoctor()
         this.initBindingsAndEventListeners()
         this.draw(this.ctx)
 
@@ -27,13 +27,19 @@ class Game{
         })
     }
 
+    createDoctor(){
+        this.doctor = new Doctor(this.gameWidth, this.gameHeight)
+        this.doctor.draw(this.ctx);
+    }
+
     draw(ctx){
         // RED SQUARE TEST
-        ctx.beginPath();
-        ctx.rect(20, 40, 50, 50);
-        ctx.fillStyle = "#FF0000";
-        ctx.fill();
-        ctx.closePath();
+        // ctx.beginPath();
+        // ctx.rect(20, 40, 50, 50);
+        // ctx.fillStyle = "#FF0000";
+        // ctx.fill();
+        // ctx.closePath();
+
 
         //PAUSE GAME
         // ctx.rect(0, 0, this.gameWidth, this.gameHeight);
