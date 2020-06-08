@@ -2,10 +2,13 @@ class Game{
     constructor(){
         this.games = []
         this.adapter = new GameAdapter()
+        this.canvas = document.getElementById('gameScreen');
+        this.ctx = this.canvas.getContext('2d');
+        this.gameWidth = this.canvas.width 
+        this.gameHeight = this.canvas.height 
+        // this.createDoctor()
         this.initBindingsAndEventListeners()
-        // this.canvas = document.getElementById('gameScreen');
-        // this.ctx = this.canvas.getContext('2d');
-        // 
+        this.draw(this.ctx)
 
     }
 
@@ -20,10 +23,26 @@ class Game{
         const playerName = this.playerFormBody.value 
 
         this.adapter.createGameObj(playerName).then(game => {
-            console.log(game)
-            // this.game.push(new Game)
+            this.games.push(game)
         })
-        // createPlayerObj(playerName)
+    }
+
+    draw(ctx){
+        // RED SQUARE TEST
+        ctx.beginPath();
+        ctx.rect(20, 40, 50, 50);
+        ctx.fillStyle = "#FF0000";
+        ctx.fill();
+        ctx.closePath();
+
+        //PAUSE GAME
+        // ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+        // ctx.fillStyle = "rgba(0,0,0,0.5)";
+        // ctx.fill();
+        // ctx.font = "30px san-sarif";
+        // ctx.fillStyle = "white";
+        // ctx.textAlign = "center";
+        // ctx.fillText("Enter a Username to Start", this.gameWidth / 2, this.gameHeight / 2);
     }
 
 }
