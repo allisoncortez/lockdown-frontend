@@ -13,10 +13,11 @@ class Game{
         this.gameWidth = this.canvas.width 
         this.gameHeight = this.canvas.height 
         this.score = 0
+        this.gameSpeed = 0
+        this.pathogens = []
         this.gamestate = GAMESTATE.PAUSED
         this.createDoctor()
         this.initBindingsAndEventListeners()
-        // this.start()
         this.draw(this.ctx)
 
     }
@@ -28,6 +29,8 @@ class Game{
         this.playerForm.addEventListener("submit",this.getPlayerName.bind(this))
         this.lastTime = 0
         this.deltaTime = 0
+        this.initialPathogenTimer = 200 
+        this.pathogenTimer = 200 
     }
 
     getPlayerName(e){
@@ -39,7 +42,7 @@ class Game{
             // clear playerform value here
             this.games.push(game)
             this.gamestate = GAMESTATE.RUNNING
-            this.gameLoop()
+            this.start()
         })
     }
 
@@ -50,8 +53,28 @@ class Game{
     }
 
     start(){
+        this.addPathogen()
         this.gameLoop()
     }
+
+    addPathogen(){
+        // let size = RandomIntInRange(20,70) 
+        // let type = RandomIntInRange(0,1)
+        let pathogen1 = new Pathogen(this.gameWidth, this.gameHeight)
+
+        // if (type == 1){
+        //     pathogen1.y -= this.doctor.height - 10 
+        // }
+        this.pathogens.push(pathogen1)
+    }
+
+    // locateDoctor(){
+    //     return this.doctor.location 
+    // }
+
+    // RandomIntInRange(min,max){
+    //     return Math.round(Math.random() * (max - min) + min)
+    // }
 
     draw(ctx){
         // RED SQUARE TEST
@@ -60,14 +83,15 @@ class Game{
         // ctx.fillStyle = "#FF0000";
         // ctx.fill();
         // ctx.closePath();
+
         if (this.gamestate === GAMESTATE.PAUSED) {
             ctx.rect(0, 0, this.gameWidth, this.gameHeight);
             ctx.fillStyle = "rgba(0,0,0,0.5)";
             ctx.fill();
-            ctx.font = "30px arcadeClassic";
+            ctx.font = "26px sans-serif";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
-            ctx.fillText("enter a player name to start", this.gameWidth / 2, this.gameHeight / 2);
+            ctx.fillText("enter player name to start", this.gameWidth / 2, this.gameHeight / 2);
         } 
 
     }
@@ -83,6 +107,20 @@ class Game{
         this.ctx.clearRect(0,0, this.gameWidth, this.gameHeight)
         this.doctor.update(this.deltaTime)
         this.doctor.draw(this.ctx)
+
+        
+        this.pathogenTimer--
+        if (this.pathogenTimer <= 0){
+            this.addPathogen()
+            console.log(this.pathogens)
+            this.pathogenTimer = this.initialPathogenTimer - this.gameSpeed * 8
+
+            if(this.pathogenTimer < 60){
+                this.pathogenTimer = 60
+            }
+        }
+        // this.update(this.deltaTime)
+        // this.draw(this.ctx)
         requestAnimationFrame(this.gameLoop.bind(this))
     }
 }
