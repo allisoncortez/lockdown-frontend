@@ -1,28 +1,19 @@
 class Pathogen{
-    constructor(gameWidth,gameHeight){
+    constructor(x,y,w,h){
         // this.gameWidth = gameWidth
-        this.gameWidth = gameWidth
-        this.gameHeight = gameHeight
-        this.x = 300
-        this.y = 480
+        // this.gameHeight = gameHeight
+        this.x = x //width
+        this.y = y //height
+        this.w = w 
+        this.h = h
         this.maxSpeed = 7 
-        this.speed = 0 
-        // this.locateDoctor = locateDoctor
+        // this.speed = 0 
 
-        this.velocity = -this.maxSpeed
+        // this.velocity = velocity
+        this.velocity = this.maxSpeed
     }
 
-    update(deltaTime){
-        this.x += this.velocity 
-        this.draw() 
-        this.velocity = -maxSpeed
-
-        // if(!deltaTime) return 
-        // this.position.x += this.velocity.x * deltaTime 
-        // this.position.y += this.velocity.y * deltaTime
-    }
-
-    draw(){
+    draw(ctx){
         // ctx.fillStyle = "#de3a0d"
         // ctx.fillRect(this.position.x,this.position.y)
         // ctx.fillRect(this.position.x, this.position.y, this.width, this.height) >> DOCTOR
@@ -30,7 +21,22 @@ class Pathogen{
         ctx.beginPath()
         ctx.fillStyle = "#de3a0d"
         ctx.fillRect(this.x,this.y,this.w,this.h)
+        // ctx.fillRect(this.location.x,this.location.y,this.size.x,this.size.y)
         ctx.closePath()
         
+    }
+
+    update(deltaTime){
+        //working
+        // this.x += this.velocity 
+        // this.velocity = -this.maxSpeed
+
+        this.y -= this.velocity 
+        this.velocity = -this.maxSpeed
+        
+        // test
+        // if(!deltaTime) return
+        // this.location.x += this.velocity.x * deltaTime 
+        // this.location.y += this.velocity.y * deltaTime
     }
 }

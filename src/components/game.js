@@ -53,28 +53,33 @@ class Game{
     }
 
     start(){
-        this.addPathogen()
+        this.createPathogen()
         this.gameLoop()
     }
 
-    addPathogen(){
-        // let size = RandomIntInRange(20,70) 
-        // let type = RandomIntInRange(0,1)
-        let pathogen1 = new Pathogen(this.gameWidth, this.gameHeight)
+    createPathogen(){
+        let size = this.RandomIntInRange(20,70) 
+        let type = this.RandomIntInRange(0,1)
+        // let pathogen1 = new Pathogen(this.gameWidth + size, this.gameHeight - size,size,size)
+        let pathogen1 = new Pathogen(200, 50,50,50)
 
-        // if (type == 1){
-        //     pathogen1.y -= this.doctor.height - 10 
-        // }
+
+        if (type == 1){
+            pathogen1.y -= this.doctor.height - 10 
+        }
+
         this.pathogens.push(pathogen1)
+        pathogen1.update(this.deltaTime)
+        pathogen1.draw(this.ctx)
     }
 
     // locateDoctor(){
     //     return this.doctor.location 
     // }
 
-    // RandomIntInRange(min,max){
-    //     return Math.round(Math.random() * (max - min) + min)
-    // }
+    RandomIntInRange(min,max){
+        return Math.round(Math.random() * (max - min) + min)
+    }
 
     draw(ctx){
         // RED SQUARE TEST
@@ -108,10 +113,10 @@ class Game{
         this.doctor.update(this.deltaTime)
         this.doctor.draw(this.ctx)
 
-        
+
         this.pathogenTimer--
         if (this.pathogenTimer <= 0){
-            this.addPathogen()
+            this.createPathogen()
             console.log(this.pathogens)
             this.pathogenTimer = this.initialPathogenTimer - this.gameSpeed * 8
 
@@ -119,9 +124,15 @@ class Game{
                 this.pathogenTimer = 60
             }
         }
-        // this.update(this.deltaTime)
-        // this.draw(this.ctx)
+        // add in pathogens
+        for (let i = 0; i < this.pathogens.length; i++){
+            let p = this.pathogens[i]
+            p.update(this.deltaTime)
+            p.draw(this.ctx)
+        }
+
         requestAnimationFrame(this.gameLoop.bind(this))
+        this.gameSpeed += 0.003
     }
 }
 
