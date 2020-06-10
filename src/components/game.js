@@ -27,6 +27,8 @@ class Game{
         this.playerForm = document.querySelector("#player-form")
         this.playerFormBody = document.getElementById('player-name')
         this.playerForm.addEventListener("submit",this.getPlayerName.bind(this))
+        this.gamesbtn = document.querySelector("#all-games")
+        this.gamesbtn.addEventListener("submit", this.getAllGames.bind(this))
         this.lastTime = 0
         this.deltaTime = 0
         this.initialPathogenTimer = 200 
@@ -38,13 +40,42 @@ class Game{
         const playerName = this.playerFormBody.value 
 
         this.adapter.createGameObj(playerName).then(game => {
-            console.log(game)
+            // console.log(game)
             // clear playerform value here
             this.games.push(game)
             this.gamestate = GAMESTATE.RUNNING
             this.start()
         })
     }
+
+    getAllGames(e){
+        // debugger
+        e.preventDefault()
+        this.adapter.getAllGames()
+        // .then(games => { this.renderGames(games)
+        .then(games => {
+            games.data.forEach(game => {
+                const gameMarkup =`
+                <div data-id = ${game.id}>
+                <h3>${game.attributes.score} | ${game.attributes.player.name}</h3>
+                </div>`
+
+                document.querySelector('#games-cont').innerHTML += gameMarkup
+            })
+        })
+    }
+
+    // renderGames(games){
+    //     // debugger
+    //     console.log(games)
+    //     // const gamesCont = document.querySelector('#games-cont')
+    //     games.data.forEach(game => {
+    //         const gameMarkup=`
+    //         <div data-id = ${game.attributes.score}></div>
+    //         <h3>${game.attributes.player.title}</h3>
+    //         `
+    //     })
+    // }
 
     createDoctor(){
         this.doctor = new Doctor(this.gameWidth, this.gameHeight)
