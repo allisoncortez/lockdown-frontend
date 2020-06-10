@@ -1,7 +1,7 @@
 const GAMESTATE = {
     PAUSED: 0,
     RUNNING: 1,
-    MENU: 2,
+    GAMEOVER: 2,
 }
 
 class Game{
@@ -49,7 +49,6 @@ class Game{
     }
 
     getAllGames(e){
-        // debugger
         e.preventDefault()
         this.adapter.getAllGames()
         // .then(games => { this.renderGames(games)
@@ -59,23 +58,10 @@ class Game{
                 <div data-id = ${game.id}>
                 <h3>${game.attributes.score} | ${game.attributes.player.name}</h3>
                 </div>`
-
                 document.querySelector('#games-cont').innerHTML += gameMarkup
             })
         })
     }
-
-    // renderGames(games){
-    //     // debugger
-    //     console.log(games)
-    //     // const gamesCont = document.querySelector('#games-cont')
-    //     games.data.forEach(game => {
-    //         const gameMarkup=`
-    //         <div data-id = ${game.attributes.score}></div>
-    //         <h3>${game.attributes.player.title}</h3>
-    //         `
-    //     })
-    // }
 
     createDoctor(){
         this.doctor = new Doctor(this.gameWidth, this.gameHeight)
@@ -83,21 +69,15 @@ class Game{
         this.doctor.draw(this.ctx)
     }
 
+    //Collision check here
+
     start(){
         this.createPathogen()
         this.gameLoop()
     }
 
     createPathogen(){
-        let size = this.RandomIntInRange(20,70) 
-        let type = this.RandomIntInRange(0,1)
-        // let pathogen1 = new Pathogen(this.gameWidth + size, this.gameHeight - size,size,size)
-        let pathogen1 = new Pathogen(200, 50,50,50)
-
-
-        if (type == 1){
-            pathogen1.y -= this.doctor.height - 10 
-        }
+        let pathogen1 = new Pathogen()
 
         this.pathogens.push(pathogen1)
         pathogen1.update(this.deltaTime)
@@ -130,11 +110,31 @@ class Game{
             ctx.fillText("enter player name to start", this.gameWidth / 2, this.gameHeight / 2);
         } 
 
+        if (this.gamestate === GAMESTATE.GAMEOVER) {
+            ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+            ctx.fillStyle = "rgba(0,0,0,1)";
+            ctx.fill();
+            ctx.font = "30px sans-serif";
+            ctx.fillStyle = "white";
+            ctx.textAlign = "center";
+            ctx.fillText("game over. Press enter to play again!", this.gameWidth / 2, this.gameHeight / 2);
+        }
+
     }
 
     update(deltaTime){
         if (this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.MENU )
             return;
+
+        //check if pathogen goes off screen => toggle gameover
+        for (let p of this.pathogens){
+            p.update(this.deltaTime)
+            p.draw(this.ctx)
+            if (p.y > this.gameHeight){
+                this.gamestate = GAMESTATE.GAMEOVER
+            }
+        }
+        
     }
 
     gameLoop(timestamp){
@@ -155,12 +155,16 @@ class Game{
                 this.pathogenTimer = 60
             }
         }
+
         // add in pathogens
         for (let i = 0; i < this.pathogens.length; i++){
             let p = this.pathogens[i]
             p.update(this.deltaTime)
             p.draw(this.ctx)
         }
+
+        this.update(this.deltaTime)
+        this.draw(this.ctx)
 
         requestAnimationFrame(this.gameLoop.bind(this))
         this.gameSpeed += 0.003
