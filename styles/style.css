@@ -1,3 +1,15 @@
 #gameScreen {
     background-color: #3e3e3e;
 }
+
+#scores-container {
+    font-family: sans-serif;
+    font-size: x-large;
+    top:380px;
+    left:280px;
+    color:white;
+    width:360;
+    position: absolute;
+    z-index: 1;
+    display: none;
+}

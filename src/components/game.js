@@ -94,11 +94,18 @@ class Game{
         // pathogen1.update(this.deltaTime)
         // pathogen1.draw(this.ctx)
 
-        // add in pathogens
+        //MOVE BELOW LOGIC TO UPDATE: 97-109
+        // render pathogens
         for (let i = 0; i < this.pathogens.length; i++){
             let p = this.pathogens[i]
             p.update(this.deltaTime)
             p.draw(this.ctx)
+
+            // check if virus goes offscreen
+            if (p.y > this.gameHeight){
+                // this.gamestate = GAMESTATE.GAMEOVER
+                this.pathogens.slice(i,1)
+            }
         }
     }
 
@@ -108,6 +115,19 @@ class Game{
 
     RandomIntInRange(min,max){
         return Math.round(Math.random() * (max - min) + min)
+    }
+
+    checkCollision(obj1,obj2) { //p,doctor
+        const btmOfPathogen = obj1.y + obj1.w
+        const topOfPathogen = obj1.y
+        const topOfDr = obj2.position.y
+        const btmOfDr = obj2.position.y + obj2.width
+        const leftOfDr = obj2.position.x
+        const rightOfDr = obj2.position.x + obj2.height
+        if (btmOfPathogen <= topOfDr || topOfPathogen >= btmOfDr) return false
+        if (obj1.x >= rightOfDr || obj1.x + obj1.w <= leftOfDr) return false
+        return true
+        // console.log('checking collison')
     }
 
     draw(ctx){
@@ -126,17 +146,6 @@ class Game{
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("enter player name to start", this.gameWidth / 2, this.gameHeight / 2);
-        } 
-
-        if (this.gamestate === GAMESTATE.GAMEOVER) {
-            ctx.rect(0, 0, this.gameWidth, this.gameHeight);
-            ctx.fillStyle = "rgba(0,0,0,1)";
-            ctx.fill();
-            ctx.font = "30px sans-serif";
-            ctx.fillStyle = "white";
-            ctx.textAlign = "center";
-            ctx.fillText("game over. Press enter to play again!", this.gameWidth / 2, this.gameHeight / 2);
-
             this.scoreAdapter.getTopFive().then(topFive => {
                 // console.log(topFive)
                 for (let scoreObj of topFive) {
@@ -148,21 +157,36 @@ class Game{
                     this.scoresContainer.style.display = "block"
                 }
             })
-         } // else {
-        //     this.scoresDiv.style.display = 'none'
-        // }
+        } else {
+            this.scoresContainer.style.display = 'none'
+        
+        } 
 
+        if (this.gamestate === GAMESTATE.GAMEOVER) {
+            ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+            ctx.fillStyle = "rgba(0,0,0,1)";
+            ctx.fill();
+            ctx.font = "30px sans-serif";
+            ctx.fillStyle = "white";
+            ctx.textAlign = "center";
+            ctx.fillText("game over. Press enter to play again!", this.gameWidth / 2, this.gameHeight / 2-80);
+        }
     }
 
     update(deltaTime){
         if (this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.MENU )
             return;
 
-        //check if pathogen goes off screen => toggle gameover
         for (let p of this.pathogens){
             p.update(deltaTime)
             p.draw(this.ctx)
-            if (p.y > this.gameHeight){
+            
+            // check if pathogen goes off screen => toggle gameover
+            // if (p.y > this.gameHeight){
+            //     this.gamestate = GAMESTATE.GAMEOVER
+            // }
+
+            if (this.checkCollision( p, this.doctor)){
                 this.gamestate = GAMESTATE.GAMEOVER
             }
         }
@@ -177,6 +201,8 @@ class Game{
                 this.pathogenTimer = 60
             }
         }
+
+        this.gameSpeed += 0.008
         
     }
 
@@ -191,7 +217,7 @@ class Game{
         this.draw(this.ctx)
 
         requestAnimationFrame(this.gameLoop.bind(this))
-        this.gameSpeed += 0.003
+        // this.gameSpeed += 0.003
     }
 }
 
