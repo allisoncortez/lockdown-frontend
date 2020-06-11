@@ -6,15 +6,15 @@ class ScoreAdapter {
     // api/v1/scores/top(.:format)
     // api/v1/scores/topfive(.:format)
 
-    // async getTopScore() {
-    //     try {
-    //         let response = await fetch(`${this.scoreUrl}/top`)
-    //         let data = await response.json()
-    //         return data.score
-    //     } catch (error) {
-    //         "Error on Fetch."
-    //     }
-    // }
+    async getTopScore() {
+        try {
+            let response = await fetch(`${this.scoreUrl}/top`)
+            let data = await response.json()
+            return data.score
+        } catch (error) {
+            "Error on Fetch."
+        }
+    }
 
     async getTopFive() {
         try {

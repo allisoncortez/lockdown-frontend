@@ -90,10 +90,16 @@ class Game{
 
     createPathogen(){
         let pathogen1 = new Pathogen()
-
         this.pathogens.push(pathogen1)
-        pathogen1.update(this.deltaTime)
-        pathogen1.draw(this.ctx)
+        // pathogen1.update(this.deltaTime)
+        // pathogen1.draw(this.ctx)
+
+        // add in pathogens
+        for (let i = 0; i < this.pathogens.length; i++){
+            let p = this.pathogens[i]
+            p.update(this.deltaTime)
+            p.draw(this.ctx)
+        }
     }
 
     // locateDoctor(){
@@ -132,13 +138,15 @@ class Game{
             ctx.fillText("game over. Press enter to play again!", this.gameWidth / 2, this.gameHeight / 2);
 
             this.scoreAdapter.getTopFive().then(topFive => {
-                console.log(topFive)
-                // for (let scoreObj of topFive) {
-                //     let li = document.createElement('li')
-                //     li.innerText = `${scoreObj.player.name} - ${scoreObj.score}`
-                //     this.scoresList.appendChild(li)
-                //     this.scoresContainer.style.display = "block"
-                // }
+                // console.log(topFive)
+                for (let scoreObj of topFive) {
+                    // console.log(topFive)
+                    // debugger
+                    let li = document.createElement('li')
+                    li.innerText = `${scoreObj.player.name} - ${scoreObj.score}`
+                    this.scoresList.appendChild(li)
+                    this.scoresContainer.style.display = "block"
+                }
             })
          } // else {
         //     this.scoresDiv.style.display = 'none'
@@ -152,10 +160,21 @@ class Game{
 
         //check if pathogen goes off screen => toggle gameover
         for (let p of this.pathogens){
-            p.update(this.deltaTime)
+            p.update(deltaTime)
             p.draw(this.ctx)
             if (p.y > this.gameHeight){
                 this.gamestate = GAMESTATE.GAMEOVER
+            }
+        }
+
+        this.pathogenTimer--
+        if (this.pathogenTimer <= 0 && this.gamestate === GAMESTATE.RUNNING){
+            this.createPathogen()
+            // console.log(this.pathogens)
+            this.pathogenTimer = this.initialPathogenTimer - this.gameSpeed * 8
+
+            if(this.pathogenTimer < 60){
+                this.pathogenTimer = 60
             }
         }
         
@@ -167,25 +186,6 @@ class Game{
         this.ctx.clearRect(0,0, this.gameWidth, this.gameHeight)
         this.doctor.update(this.deltaTime)
         this.doctor.draw(this.ctx)
-
-
-        this.pathogenTimer--
-        if (this.pathogenTimer <= 0){
-            this.createPathogen()
-            console.log(this.pathogens)
-            this.pathogenTimer = this.initialPathogenTimer - this.gameSpeed * 8
-
-            if(this.pathogenTimer < 60){
-                this.pathogenTimer = 60
-            }
-        }
-
-        // add in pathogens
-        for (let i = 0; i < this.pathogens.length; i++){
-            let p = this.pathogens[i]
-            p.update(this.deltaTime)
-            p.draw(this.ctx)
-        }
 
         this.update(this.deltaTime)
         this.draw(this.ctx)
