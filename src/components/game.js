@@ -8,6 +8,7 @@ class Game{
     constructor(){
         this.games = []
         this.adapter = new GameAdapter()
+        this.scoreAdapter = new ScoreAdapter()
         this.canvas = document.getElementById('gameScreen');
         this.ctx = this.canvas.getContext('2d');
         this.gameWidth = this.canvas.width 
@@ -24,6 +25,9 @@ class Game{
 
     initBindingsAndEventListeners(){
         this.listener = new InputHandler(this.doctor, this)
+        this.enterkey = document.addEventListener('keypress', this.startOver.bind(this))
+        this.scoresContainer = document.getElementById('scores-container')
+        this.scoresList = document.getElementById('scores-list')
         this.playerForm = document.querySelector("#player-form")
         this.playerFormBody = document.getElementById('player-name')
         this.playerForm.addEventListener("submit",this.getPlayerName.bind(this))
@@ -61,6 +65,14 @@ class Game{
                 document.querySelector('#games-cont').innerHTML += gameMarkup
             })
         })
+    }
+
+    startOver(e){
+        if (e.key === 'Enter'){
+            debugger
+            // createGameObj(this.player)
+            this.gamestate = GAMESTATE.RUNNING
+        }
     }
 
     createDoctor(){
@@ -118,7 +130,19 @@ class Game{
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("game over. Press enter to play again!", this.gameWidth / 2, this.gameHeight / 2);
-        }
+
+            this.scoreAdapter.getTopFive().then(topFive => {
+                console.log(topFive)
+                // for (let scoreObj of topFive) {
+                //     let li = document.createElement('li')
+                //     li.innerText = `${scoreObj.player.name} - ${scoreObj.score}`
+                //     this.scoresList.appendChild(li)
+                //     this.scoresContainer.style.display = "block"
+                // }
+            })
+         } // else {
+        //     this.scoresDiv.style.display = 'none'
+        // }
 
     }
 

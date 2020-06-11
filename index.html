@@ -14,13 +14,14 @@
     </form>
     <br><br>
     <canvas id="gameScreen" width="800" height="600"></canvas>
-    <br><br>
+    <div id="scores-container">
+        <ol id="scores-list"></ol>
+    </div>
+
     <form id="all-games">
         <input type="submit" value="all games">
     </form>
-    <ul id="games-cont">
-
-    </ul>
+    <ul id="games-cont"></ul>
 
     <!-- images
     <img class="img" id="doctor" width="40" height="40" src="in local resources folder">
@@ -30,6 +31,7 @@
     <script src="src/components/pathogen.js"></script>
     <script src="src/components/input.js"></script>
     <script src="src/components/doctor.js"></script>
+    <script src="src/adapters/ScoreAdapter.js"></script>
     <script src="src/adapters/GameAdapter.js"></script>
     <script src="src/components/game.js"></script>
     <script src="src/index.js"></script>
