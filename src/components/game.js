@@ -39,13 +39,17 @@ class Game{
         this.deltaTime = 0
         this.initialPathogenTimer = 200 
         this.pathogenTimer = 200 
+        // this.scoreAdapter.getScore().then(score => {
+        //     this.hiScore.innerText = highestScore
+        //     this.hiScoreTitle.innerText = "high score"
+        // })
     }
 
     getPlayerName(e){
         e.preventDefault()
         const playerName = this.playerFormBody.value 
 
-        this.adapter.createGameObj(playerName).then(game => {
+        this.adapter.createGameObj(playerName, this.score).then(game => {
             // console.log(game)
             // clear playerform value here
             this.games.push(game)
@@ -183,6 +187,14 @@ class Game{
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80);
+
+            // update score
+            // debugger
+            this.adapter.updateGame(this.games[0],this.score).then(game => {
+                console.log(game)
+            })
+            // this.score = 0
+
         }
     }
 
@@ -200,9 +212,7 @@ class Game{
             // }
 
             if (this.checkCollision( p, this.doctor)){
-                this.gamestate = GAMESTATE.GAMEOVER
-                this.score = 0
-            }
+                this.gamestate = GAMESTATE.GAMEOVER            }
         }
 
         this.pathogenTimer--
@@ -223,6 +233,7 @@ class Game{
     gameLoop(timestamp){
         if (this.gamestate === GAMESTATE.RUNNING){
             this.score++
+            // console.log(this.score)
         }
         this.scoreObj.innerText = this.score
         this.deltaTime = timestamp - this.lastTime

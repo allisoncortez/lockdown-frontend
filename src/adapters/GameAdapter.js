@@ -7,23 +7,34 @@ class GameAdapter {
     getAllGames(){
         return fetch(this.gameUrl)
         .then(resp => resp.json())
-        // .then(games => {
-        //     console.log(games)
-        // })
     }
 
-    createGameObj(playerName, score=0){
+    createGameObj(playerName, score){
         return fetch(this.gameUrl, {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 player_name: playerName,
-                // player_name: player.data.attributes.name,
                 score: score
             })
         })
-        // return resp.json()
         .then(res => res.json())
+    }
+
+    async updateGame(game,score){
+        const result = await fetch(`${this.gameUrl}/${game.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body:JSON.stringify({
+                // id: game.id,
+                // player_name: game.player.name,
+                score: score
+            })
+        })
+        return await result.json()
     }
 
 }

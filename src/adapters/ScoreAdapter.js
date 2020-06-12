@@ -1,6 +1,7 @@
 class ScoreAdapter {
     constructor() {
         this.scoreUrl = 'http://localhost:3000/api/v1/scores'
+        this.gameUrl = 'http://localhost:3000/api/v1/games'
     }
     
     // api/v1/scores/top(.:format)
@@ -26,11 +27,4 @@ class ScoreAdapter {
         }
     }
 
-    // getTopFive(){
-    //         return fetch(`${this.scoreUrl}/topfive`)
-    //         .then(resp => resp.json())
-    //         // .catch(error => {
-    //         //     console.log(error)
-    //         // })
-    // }
 }
