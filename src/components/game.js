@@ -201,6 +201,7 @@ class Game{
 
             if (this.checkCollision( p, this.doctor)){
                 this.gamestate = GAMESTATE.GAMEOVER
+                this.score = 0
             }
         }
 
@@ -220,6 +221,9 @@ class Game{
     }
 
     gameLoop(timestamp){
+        if (this.gamestate === GAMESTATE.RUNNING){
+            this.score++
+        }
         this.scoreObj.innerText = this.score
         this.deltaTime = timestamp - this.lastTime
         this.lastTime = timestamp
