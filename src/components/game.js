@@ -26,6 +26,8 @@ class Game{
     initBindingsAndEventListeners(){
         this.listener = new InputHandler(this.doctor, this)
         // this.enterkey = document.addEventListener('keypress', this.startOver.bind(this))
+        this.scoreObj = document.getElementById("score")
+        this.scoreObj.innerText = this.score
         this.scoresContainer = document.getElementById('scores-container')
         this.scoresList = document.getElementById('scores-list')
         this.playerForm = document.querySelector("#player-form")
@@ -218,6 +220,7 @@ class Game{
     }
 
     gameLoop(timestamp){
+        this.scoreObj.innerText = this.score
         this.deltaTime = timestamp - this.lastTime
         this.lastTime = timestamp
         this.ctx.clearRect(0,0, this.gameWidth, this.gameHeight)
