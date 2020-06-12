@@ -25,7 +25,7 @@ class Game{
 
     initBindingsAndEventListeners(){
         this.listener = new InputHandler(this.doctor, this)
-        this.enterkey = document.addEventListener('keypress', this.startOver.bind(this))
+        // this.enterkey = document.addEventListener('keypress', this.startOver.bind(this))
         this.scoresContainer = document.getElementById('scores-container')
         this.scoresList = document.getElementById('scores-list')
         this.playerForm = document.querySelector("#player-form")
@@ -67,13 +67,24 @@ class Game{
         })
     }
 
-    startOver(e){
-        if (e.key === 'Enter'){
-            debugger
-            // createGameObj(this.player)
-            this.gamestate = GAMESTATE.RUNNING
-        }
-    }
+    // startOver(e){
+    //     if (e.key === 'Enter'){
+    //         debugger
+    //         // createGameObj(this.player)
+    //         // const playerName = this.player.name 
+
+    //         // this.adapter.createGameObj(this.player).then(game => {
+    //         //     // console.log(game)
+    //         //     // clear playerform value here
+    //         //     // this.games.push(game)
+    //         //     // this.gamestate = GAMESTATE.RUNNING
+    //         //     // this.start()
+    //         // })
+
+    //         // this.gamestate = GAMESTATE.RUNNING
+    //         // new
+    //     }
+    // }
 
     createDoctor(){
         this.doctor = new Doctor(this.gameWidth, this.gameHeight)
@@ -81,9 +92,8 @@ class Game{
         this.doctor.draw(this.ctx)
     }
 
-    //Collision check here
-
     start(){
+        // this.addPathogen()
         this.createPathogen()
         this.gameLoop()
     }
@@ -94,13 +104,14 @@ class Game{
         // pathogen1.update(this.deltaTime)
         // pathogen1.draw(this.ctx)
 
-        //MOVE BELOW LOGIC TO UPDATE: 97-109
+        //MOVE BELOW LOGIC TO UPDATE: 97-109..or it's own create method
         // render pathogens
         for (let i = 0; i < this.pathogens.length; i++){
             let p = this.pathogens[i]
             p.update(this.deltaTime)
             p.draw(this.ctx)
 
+             //move to update
             // check if virus goes offscreen
             if (p.y > this.gameHeight){
                 // this.gamestate = GAMESTATE.GAMEOVER
@@ -169,7 +180,7 @@ class Game{
             ctx.font = "30px sans-serif";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
-            ctx.fillText("game over. Press enter to play again!", this.gameWidth / 2, this.gameHeight / 2-80);
+            ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80);
         }
     }
 
