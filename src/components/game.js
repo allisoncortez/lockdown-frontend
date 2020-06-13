@@ -209,13 +209,12 @@ class Game{
                 this.pathogenTimer = 60
             }
         }
-
-        // this.gameSpeed += 0.008
     }
 
     gameLoop(timestamp){
         if (this.gamestate === GAMESTATE.RUNNING){
             this.score++
+            this.gameSpeed += 0.08
         }
         this.scoreObj.innerText = this.score
         this.deltaTime = timestamp - this.lastTime
@@ -227,7 +226,6 @@ class Game{
         this.update(this.deltaTime)
         this.draw(this.ctx)
 
-        this.gameSpeed += 0.008
         requestAnimationFrame(this.gameLoop.bind(this))
      }
 }
