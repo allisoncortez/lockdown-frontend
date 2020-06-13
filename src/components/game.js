@@ -105,7 +105,7 @@ class Game{
     }
 
     createPathogen(){
-        let pathogen1 = new Pathogen()
+        let pathogen1 = new Pathogen(this.gameWidth,this.gameHeight)
         this.pathogens.push(pathogen1)
         // pathogen1.update(this.deltaTime)
         // pathogen1.draw(this.ctx)
@@ -130,9 +130,9 @@ class Game{
     //     return this.doctor.location 
     // }
 
-    RandomIntInRange(min,max){
-        return Math.round(Math.random() * (max - min) + min)
-    }
+    // RandomIntInRange(min,max){
+    //     return Math.round(Math.random() * (max - min) + min)
+    // }
 
     checkCollision(obj1,obj2) { //p,doctor
         const btmOfPathogen = obj1.y + obj1.w
@@ -142,7 +142,7 @@ class Game{
         const leftOfDr = obj2.position.x
         const rightOfDr = obj2.position.x + obj2.height
         if (btmOfPathogen <= topOfDr || topOfPathogen >= btmOfDr) return false
-        if (obj1.x >= rightOfDr || obj1.x + obj1.w <= leftOfDr) return false
+        if (obj1.position.x >= rightOfDr || obj1.position.x + obj1.w <= leftOfDr) return false
         return true
         // console.log('checking collison')
     }
@@ -190,16 +190,17 @@ class Game{
 
             // update score
             // debugger
-            this.adapter.updateGame(this.games[0],this.score).then(game => {
-                console.log(game)
-            })
+            this.adapter.updateGame(this.games[0],this.score)
+            // .then(game => {
+            //     console.log(game)
+            // })
             // this.score = 0
 
         }
     }
 
     update(deltaTime){
-        if (this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.MENU )
+        if (this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.GAMEOVER )
             return;
 
         for (let p of this.pathogens){
@@ -212,7 +213,8 @@ class Game{
             // }
 
             if (this.checkCollision( p, this.doctor)){
-                this.gamestate = GAMESTATE.GAMEOVER            }
+                this.gamestate = GAMESTATE.GAMEOVER
+            }
         }
 
         this.pathogenTimer--
@@ -233,7 +235,6 @@ class Game{
     gameLoop(timestamp){
         if (this.gamestate === GAMESTATE.RUNNING){
             this.score++
-            // console.log(this.score)
         }
         this.scoreObj.innerText = this.score
         this.deltaTime = timestamp - this.lastTime
@@ -246,7 +247,6 @@ class Game{
         this.draw(this.ctx)
 
         requestAnimationFrame(this.gameLoop.bind(this))
-        // this.gameSpeed += 0.003
-    }
+     }
 }
 
