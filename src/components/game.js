@@ -148,13 +148,6 @@ class Game{
     }
 
     draw(ctx){
-        // RED SQUARE TEST
-        // ctx.beginPath();
-        // ctx.rect(20, 40, 50, 50);
-        // ctx.fillStyle = "#FF0000";
-        // ctx.fill();
-        // ctx.closePath();
-
         if (this.gamestate === GAMESTATE.PAUSED) {
             ctx.rect(0, 0, this.gameWidth, this.gameHeight);
             ctx.fillStyle = "rgba(0,0,0,0.5)";
@@ -164,10 +157,7 @@ class Game{
             ctx.textAlign = "center";
             ctx.fillText("enter player name to start", this.gameWidth / 2, this.gameHeight / 2);
             this.scoreAdapter.getTopFive().then(topFive => {
-                // console.log(topFive)
                 for (let scoreObj of topFive) {
-                    // console.log(topFive)
-                    // debugger
                     let li = document.createElement('li')
                     li.innerText = `${scoreObj.player.name} - ${scoreObj.score}`
                     this.scoresList.appendChild(li)
@@ -176,7 +166,6 @@ class Game{
             })
         } else {
             this.scoresContainer.style.display = 'none'
-        
         } 
 
         if (this.gamestate === GAMESTATE.GAMEOVER) {
@@ -187,15 +176,9 @@ class Game{
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80);
-
-            // update score
-            // debugger
+            //update score
             this.adapter.updateGame(this.games[0],this.score)
-            // .then(game => {
-            //     console.log(game)
-            // })
             // this.score = 0
-
         }
     }
 
@@ -222,14 +205,12 @@ class Game{
             this.createPathogen()
             // console.log(this.pathogens)
             this.pathogenTimer = this.initialPathogenTimer - this.gameSpeed * 8
-
             if(this.pathogenTimer < 60){
                 this.pathogenTimer = 60
             }
         }
 
-        this.gameSpeed += 0.008
-        
+        // this.gameSpeed += 0.008
     }
 
     gameLoop(timestamp){
@@ -246,6 +227,7 @@ class Game{
         this.update(this.deltaTime)
         this.draw(this.ctx)
 
+        this.gameSpeed += 0.008
         requestAnimationFrame(this.gameLoop.bind(this))
      }
 }
