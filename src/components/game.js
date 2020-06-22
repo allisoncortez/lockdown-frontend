@@ -44,13 +44,12 @@ class Game{
     getPlayerName(e){
         e.preventDefault()
         const playerName = this.playerFormBody.value 
-
         this.adapter.createGameObj(playerName, this.score).then(game => {
-            // clear playerform value here
             this.games.push(game)
             this.gamestate = GAMESTATE.RUNNING
             this.start()
         })
+        document.getElementById("player-form").reset()
     }
 
     getAllGames(e){
