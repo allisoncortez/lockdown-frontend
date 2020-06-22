@@ -52,19 +52,19 @@ class Game{
         document.getElementById("player-form").reset()
     }
 
-    getAllGames(e){
-        e.preventDefault()
-        this.adapter.getAllGames()
-        .then(games => {
-            games.data.forEach(game => {
-                const gameMarkup =`
-                <div data-id = ${game.id}>
-                <h3>${game.attributes.score} | ${game.attributes.player.name}</h3>
-                </div>`
-                document.querySelector('#games-cont').innerHTML += gameMarkup
-            })
-        })
-    }
+    // getAllGames(e){
+    //     e.preventDefault()
+    //     this.adapter.getAllGames()
+    //     .then(games => {
+    //         games.data.forEach(game => {
+    //             const gameMarkup =`
+    //             <div data-id = ${game.id}>
+    //             <h3>${game.attributes.score} | ${game.attributes.player.name}</h3>
+    //             </div>`
+    //             document.querySelector('#games-cont').innerHTML += gameMarkup
+    //         })
+    //     })
+    // }
 
     // startOver(e){
     //     if (e.key === 'Enter'){
@@ -155,7 +155,6 @@ class Game{
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80);
-            //update score
             this.adapter.updateGame(this.games[0],this.score)
         }
     }
