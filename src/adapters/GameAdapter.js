@@ -4,10 +4,10 @@ class GameAdapter {
         this.playerUrl = 'http://localhost:3000/api/v1/players'
     }
 
-    getAllGames(){
-        return fetch(this.gameUrl)
-        .then(resp => resp.json())
-    }
+    // getAllGames(){
+    //     return fetch(this.gameUrl)
+    //     .then(resp => resp.json())
+    // }
 
     createGameObj(playerName, score){
         return fetch(this.gameUrl, {

@@ -33,7 +33,7 @@ class Game{
         this.playerFormBody = document.getElementById('player-name')
         this.playerForm.addEventListener("submit",this.getPlayerName.bind(this))
         this.gamesbtn = document.querySelector("#all-games")
-        this.gamesbtn.addEventListener("submit", this.getAllGames.bind(this))
+        // this.gamesbtn.addEventListener("submit", this.getAllGames.bind(this))
         this.lastTime = 0
         this.deltaTime = 0
         this.initialPathogenTimer = 200 
