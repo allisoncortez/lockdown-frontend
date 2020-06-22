@@ -24,7 +24,7 @@ class Game{
     }
 
     initBindingsAndEventListeners(){
-        this.listener = new InputHandler(this.doctor, this)
+        this.listener = new InputHandler(this.doctor)
         this.scoreObj = document.getElementById("score")
         this.scoreObj.innerText = this.score
         this.scoresContainer = document.getElementById('scores-container')
