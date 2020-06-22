@@ -25,7 +25,6 @@ class Game{
 
     initBindingsAndEventListeners(){
         this.listener = new InputHandler(this.doctor, this)
-        // this.enterkey = document.addEventListener('keypress', this.startOver.bind(this))
         this.scoreObj = document.getElementById("score")
         this.scoreObj.innerText = this.score
         this.scoresContainer = document.getElementById('scores-container')
@@ -39,10 +38,7 @@ class Game{
         this.deltaTime = 0
         this.initialPathogenTimer = 200 
         this.pathogenTimer = 200 
-        // this.scoreAdapter.getScore().then(score => {
-        //     this.hiScore.innerText = highestScore
-        //     this.hiScoreTitle.innerText = "high score"
-        // })
+
     }
 
     getPlayerName(e){
@@ -50,7 +46,6 @@ class Game{
         const playerName = this.playerFormBody.value 
 
         this.adapter.createGameObj(playerName, this.score).then(game => {
-            // console.log(game)
             // clear playerform value here
             this.games.push(game)
             this.gamestate = GAMESTATE.RUNNING
@@ -61,7 +56,6 @@ class Game{
     getAllGames(e){
         e.preventDefault()
         this.adapter.getAllGames()
-        // .then(games => { this.renderGames(games)
         .then(games => {
             games.data.forEach(game => {
                 const gameMarkup =`
@@ -99,7 +93,6 @@ class Game{
     }
 
     start(){
-        // this.addPathogen()
         this.createPathogen()
         this.gameLoop()
     }
@@ -107,32 +100,20 @@ class Game{
     createPathogen(){
         let pathogen1 = new Pathogen(this.gameWidth,this.gameHeight)
         this.pathogens.push(pathogen1)
-        // pathogen1.update(this.deltaTime)
-        // pathogen1.draw(this.ctx)
-
-        //MOVE BELOW LOGIC TO UPDATE: 97-109..or it's own create method
+ 
         // render pathogens
         for (let i = 0; i < this.pathogens.length; i++){
             let p = this.pathogens[i]
             p.update(this.deltaTime)
             p.draw(this.ctx)
 
-             //move to update
             // check if virus goes offscreen
             if (p.y > this.gameHeight){
-                // this.gamestate = GAMESTATE.GAMEOVER
                 this.pathogens.slice(i,1)
             }
         }
     }
 
-    // locateDoctor(){
-    //     return this.doctor.location 
-    // }
-
-    // RandomIntInRange(min,max){
-    //     return Math.round(Math.random() * (max - min) + min)
-    // }
 
     checkCollision(obj1,obj2) { //p,doctor
         const btmOfPathogen = obj1.y + obj1.w
@@ -144,7 +125,6 @@ class Game{
         if (btmOfPathogen <= topOfDr || topOfPathogen >= btmOfDr) return false
         if (obj1.position.x >= rightOfDr || obj1.position.x + obj1.w <= leftOfDr) return false
         return true
-        // console.log('checking collison')
     }
 
     draw(ctx){
@@ -178,7 +158,6 @@ class Game{
             ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80);
             //update score
             this.adapter.updateGame(this.games[0],this.score)
-            // this.score = 0
         }
     }
 
@@ -189,11 +168,6 @@ class Game{
         for (let p of this.pathogens){
             p.update(deltaTime)
             p.draw(this.ctx)
-            
-            // check if pathogen goes off screen => toggle gameover
-            // if (p.y > this.gameHeight){
-            //     this.gamestate = GAMESTATE.GAMEOVER
-            // }
 
             if (this.checkCollision( p, this.doctor)){
                 this.gamestate = GAMESTATE.GAMEOVER
@@ -203,7 +177,6 @@ class Game{
         this.pathogenTimer--
         if (this.pathogenTimer <= 0 && this.gamestate === GAMESTATE.RUNNING){
             this.createPathogen()
-            // console.log(this.pathogens)
             this.pathogenTimer = this.initialPathogenTimer - this.gameSpeed * 8
             if(this.pathogenTimer < 60){
                 this.pathogenTimer = 60

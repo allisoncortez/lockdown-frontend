@@ -29,8 +29,6 @@ class GameAdapter {
                 'Accept': 'application/json',
             },
             body:JSON.stringify({
-                // id: game.id,
-                // player_name: game.player.name,
                 score: score
             })
         })

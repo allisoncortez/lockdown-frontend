@@ -3,9 +3,6 @@ class ScoreAdapter {
         this.scoreUrl = 'http://localhost:3000/api/v1/scores'
         this.gameUrl = 'http://localhost:3000/api/v1/games'
     }
-    
-    // api/v1/scores/top(.:format)
-    // api/v1/scores/topfive(.:format)
 
     async getTopScore() {
         try {
