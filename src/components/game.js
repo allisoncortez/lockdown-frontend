@@ -43,7 +43,7 @@ class Game{
 
     getPlayerName(e){
         e.preventDefault()
-        const playerName = this.playerFormBody.value 
+        const playerName = this.playerFormBody.value
         this.adapter.createGameObj(playerName, this.score).then(game => {
             this.games.push(game)
             this.gamestate = GAMESTATE.RUNNING
@@ -121,6 +121,7 @@ class Game{
         const btmOfDr = obj2.position.y + obj2.width
         const leftOfDr = obj2.position.x
         const rightOfDr = obj2.position.x + obj2.height
+
         if (btmOfPathogen <= topOfDr || topOfPathogen >= btmOfDr) return false
         if (obj1.position.x >= rightOfDr || obj1.position.x + obj1.w <= leftOfDr) return false
         return true
@@ -176,8 +177,9 @@ class Game{
         if (this.pathogenTimer <= 0 && this.gamestate === GAMESTATE.RUNNING){
             this.createPathogen()
             this.pathogenTimer = this.initialPathogenTimer - this.gameSpeed * 8
-            if(this.pathogenTimer < 60){
-                this.pathogenTimer = 60
+            
+            if(this.pathogenTimer < 20){
+                this.pathogenTimer = 20
             }
         }
     }
@@ -187,13 +189,13 @@ class Game{
             this.score++
             this.gameSpeed += 0.08
         }
+
         this.scoreObj.innerText = this.score
         this.deltaTime = timestamp - this.lastTime
         this.lastTime = timestamp
         this.ctx.clearRect(0,0, this.gameWidth, this.gameHeight)
         this.doctor.update(this.deltaTime)
         this.doctor.draw(this.ctx)
-
         this.update(this.deltaTime)
         this.draw(this.ctx)
 
