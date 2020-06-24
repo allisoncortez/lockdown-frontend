@@ -1,7 +1,6 @@
 class ScoreAdapter {
     constructor() {
         this.scoreUrl = 'http://localhost:3000/api/v1/scores'
-        this.gameUrl = 'http://localhost:3000/api/v1/games'
     }
 
     async getTopScore() {

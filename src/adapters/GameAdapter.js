@@ -1,7 +1,6 @@
 class GameAdapter {
     constructor(){
         this.gameUrl = 'http://localhost:3000/api/v1/games'
-        this.playerUrl = 'http://localhost:3000/api/v1/players'
     }
 
     // getAllGames(){

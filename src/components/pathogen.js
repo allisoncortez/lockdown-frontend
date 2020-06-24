@@ -13,7 +13,7 @@ class Pathogen{
         }
     }
 
-    update(deltaTime){
+    update(){
             this.y -= this.velocity
             this.velocity = -this.maxSpeed
     }

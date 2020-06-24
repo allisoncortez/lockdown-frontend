@@ -12,21 +12,22 @@
         <input type="text" id="player-name" placeholder="player name">
         <input type="submit" value="save">
     </form>
-    <br><br>
+    <br>
+   <form id="sort-top-5">
+        <input type="submit" value="sort">
+    </form>
+    <br>
     <canvas id="gameScreen" width="800" height="600"></canvas>
     <div id="running-score">
         <h2 class="title" id="score-title">SCORE</h2>
         <h2 id="score"></h2>
     </div>
     <div id="scores-container">
+        <h3>Top Scores</h3>
         <ol id="scores-list">
-            <h3>Top Scores</h3>
         </ol>
     </div>
 
-    <!--<form id="all-games">
-        <input type="submit" value="all games">
-    </form> -->
     <ul id="games-cont"></ul>
 
     <script src="src/components/pathogen.js"></script>

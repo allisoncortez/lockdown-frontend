@@ -32,12 +32,11 @@ class Game{
         this.playerForm = document.querySelector("#player-form")
         this.playerFormBody = document.getElementById('player-name')
         this.playerForm.addEventListener("submit",this.getPlayerName.bind(this))
-        this.gamesbtn = document.querySelector("#all-games")
-        // this.gamesbtn.addEventListener("submit", this.getAllGames.bind(this))
+        // this.sortbtn = document.getElementById('sort-top-5')
         this.lastTime = 0
         this.deltaTime = 0
         this.initialPathogenTimer = 200 
-        this.pathogenTimer = 200 
+        this.pathogenTimer = this.initialPathogenTimer 
 
     }
 
@@ -52,18 +51,9 @@ class Game{
         document.getElementById("player-form").reset()
     }
 
-    // getAllGames(e){
+    // sortGames(e){
     //     e.preventDefault()
-    //     this.adapter.getAllGames()
-    //     .then(games => {
-    //         games.data.forEach(game => {
-    //             const gameMarkup =`
-    //             <div data-id = ${game.id}>
-    //             <h3>${game.attributes.score} | ${game.attributes.player.name}</h3>
-    //             </div>`
-    //             document.querySelector('#games-cont').innerHTML += gameMarkup
-    //         })
-    //     })
+    //     console.log("game sorted")
     // }
 
     // startOver(e){
@@ -136,12 +126,49 @@ class Game{
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("enter player name to start", this.gameWidth / 2, this.gameHeight / 2);
+            
             this.scoreAdapter.getTopFive().then(topFive => {
-                for (let scoreObj of topFive) {
-                    let li = document.createElement('li')
-                    li.innerText = `${scoreObj.player.name} - ${scoreObj.score}`
-                    this.scoresList.appendChild(li)
-                    this.scoresContainer.style.display = "block"
+                this.sortbtn = document.getElementById('sort-top-5').addEventListener("click", sortGames.bind(this))
+                // this.sortbtn = document.getElementById('sort-top-5').addEventListener("click", topFive.sort(function(a,b){
+                //     var nameA = a.player.name.toUpperCase()
+                //     var nameB = b.player.name.toUpperCase()
+                //     if (nameA < nameB){
+                //         return -1
+                //     }
+                //     if (nameA > nameB){
+                //         return 1
+                //     }
+                //     return 0
+                //     }))
+               
+                    for (let scoreObj of topFive) {
+                        let li = document.createElement('li')
+                        li.innerText = `${scoreObj.player.name} - ${scoreObj.score}`
+                        this.scoresList.appendChild(li)
+                        this.scoresContainer.style.display = "block"
+                    }
+                
+                function sortGames(e){
+                    e.preventDefault()
+                    this.scoresList.innerHTML = ""
+                        topFive.sort(function(a,b){
+                            var nameA = a.player.name.toUpperCase()
+                            var nameB = b.player.name.toUpperCase()
+                            if (nameA < nameB){
+                                return -1
+                            }
+                            if (nameA > nameB){
+                                return 1
+                            }
+                            return 0
+                        })
+
+                        for (let nameObj of topFive) {
+                            let updatedLi = document.createElement('li')
+                            updatedLi.innerText = `${nameObj.player.name} - ${nameObj.score}`
+                            this.scoresList.appendChild(updatedLi)
+                            this.scoresContainer.style.display = "block"
+                        }
                 }
             })
         } else {
@@ -155,7 +182,7 @@ class Game{
             ctx.font = "30px sans-serif";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
-            ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80);
+            ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80)
             this.adapter.updateGame(this.games[0],this.score)
         }
     }
