@@ -98,7 +98,7 @@ class Game{
 
             // check if virus goes offscreen
             if (p.y > this.gameHeight){
-                this.pathogens.slice(i,1)
+                this.pathogens.splice(i,1)
             }
         }
     }
@@ -184,8 +184,16 @@ class Game{
             ctx.textAlign = "center";
             ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80)
             this.adapter.updateGame(this.games[0],this.score)
+            // .then(game => console.log(game))
+            
         }
     }
+
+    // endGame(game){
+    //     console.log("game ended")
+    //     debugger
+    //     // clearInterval(game)
+    // }
 
     update(deltaTime){
         if (this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.GAMEOVER )
@@ -215,16 +223,17 @@ class Game{
         if (this.gamestate === GAMESTATE.RUNNING){
             this.score++
             this.gameSpeed += 0.08
+
+            this.scoreObj.innerText = this.score
+            this.deltaTime = timestamp - this.lastTime
+            this.lastTime = timestamp
+            this.ctx.clearRect(0,0, this.gameWidth, this.gameHeight)
+            this.doctor.update(this.deltaTime)
+            this.doctor.draw(this.ctx)
+            this.update(this.deltaTime)
+            this.draw(this.ctx)
         }
 
-        this.scoreObj.innerText = this.score
-        this.deltaTime = timestamp - this.lastTime
-        this.lastTime = timestamp
-        this.ctx.clearRect(0,0, this.gameWidth, this.gameHeight)
-        this.doctor.update(this.deltaTime)
-        this.doctor.draw(this.ctx)
-        this.update(this.deltaTime)
-        this.draw(this.ctx)
 
         requestAnimationFrame(this.gameLoop.bind(this))
      }
