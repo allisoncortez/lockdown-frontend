@@ -129,18 +129,6 @@ class Game{
             
             this.scoreAdapter.getTopFive().then(topFive => {
                 this.sortbtn = document.getElementById('sort-top-5').addEventListener("click", sortGames.bind(this))
-                // this.sortbtn = document.getElementById('sort-top-5').addEventListener("click", topFive.sort(function(a,b){
-                //     var nameA = a.player.name.toUpperCase()
-                //     var nameB = b.player.name.toUpperCase()
-                //     if (nameA < nameB){
-                //         return -1
-                //     }
-                //     if (nameA > nameB){
-                //         return 1
-                //     }
-                //     return 0
-                //     }))
-               
                     for (let scoreObj of topFive) {
                         let li = document.createElement('li')
                         li.innerText = `${scoreObj.player.name} - ${scoreObj.score}`
@@ -185,15 +173,8 @@ class Game{
             ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80)
             this.adapter.updateGame(this.games[0],this.score)
             // .then(game => console.log(game))
-            
         }
     }
-
-    // endGame(game){
-    //     console.log("game ended")
-    //     debugger
-    //     // clearInterval(game)
-    // }
 
     update(deltaTime){
         if (this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.GAMEOVER )
