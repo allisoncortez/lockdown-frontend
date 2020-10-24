@@ -3,12 +3,7 @@ class GameAdapter {
         this.gameUrl = 'http://localhost:3000/api/v1/games'
     }
 
-    // getAllGames(){
-    //     return fetch(this.gameUrl)
-    //     .then(resp => resp.json())
-    // }
-
-    createGameObj(playerName, score){
+    async createGameObj(playerName, score){
         return fetch(this.gameUrl, {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
@@ -33,5 +28,4 @@ class GameAdapter {
         })
         return await result.json()
     }
-
 }

@@ -4,7 +4,7 @@ const GAMESTATE = {
     GAMEOVER: 2,
 }
 
-class Game{
+class Game {
     constructor(){
         this.games = []
         this.adapter = new GameAdapter()
@@ -32,7 +32,6 @@ class Game{
         this.playerForm = document.querySelector("#player-form")
         this.playerFormBody = document.getElementById('player-name')
         this.playerForm.addEventListener("submit",this.getPlayerName.bind(this))
-        // this.sortbtn = document.getElementById('sort-top-5')
         this.lastTime = 0
         this.deltaTime = 0
         this.initialPathogenTimer = 200 
@@ -50,11 +49,6 @@ class Game{
         })
         document.getElementById("player-form").reset()
     }
-
-    // sortGames(e){
-    //     e.preventDefault()
-    //     console.log("game sorted")
-    // }
 
     // startOver(e){
     //     if (e.key === 'Enter'){
@@ -90,7 +84,6 @@ class Game{
         let pathogen1 = new Pathogen(this.gameWidth,this.gameHeight)
         this.pathogens.push(pathogen1)
  
-        // render pathogens
         for (let i = 0; i < this.pathogens.length; i++){
             let p = this.pathogens[i]
             p.update(this.deltaTime)
@@ -172,7 +165,6 @@ class Game{
             ctx.textAlign = "center";
             ctx.fillText("game over ;(", this.gameWidth / 2, this.gameHeight / 2-80)
             this.adapter.updateGame(this.games[0],this.score)
-            // .then(game => console.log(game))
         }
     }
 
@@ -214,7 +206,6 @@ class Game{
             this.update(this.deltaTime)
             this.draw(this.ctx)
         }
-
 
         requestAnimationFrame(this.gameLoop.bind(this))
      }
